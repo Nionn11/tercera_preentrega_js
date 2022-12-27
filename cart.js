@@ -35,9 +35,10 @@ function ponerCarrito() {
         <h3>${producto.nombre}</h3>
         <p>Precio por unidad: $${producto.precio}</p>
         <p>Cantidad:  ${producto.cantidad}</p>
-        <span class="restar"> - </span>
-        <span class="sumar"> + </span>
+        <p class="restar"> - </p>
+        <p class="sumar"> + </p>
         <p>Total:$${producto.cantidad * producto.precio}</p>
+        <p class="eliminarProducto"> X </p>
         `
 
         modalContainer.appendChild(carritoContent)
@@ -58,15 +59,12 @@ function ponerCarrito() {
             ponerCarrito()
         })
 
-        
-
-        let eliminar = document.createElement("span")
-        eliminar.innerText = "X"
-        eliminar.className = "delete-product"
-        carritoContent.appendChild(eliminar)
-
-
-        eliminar.addEventListener("click", eliminarProducto)
+        let eliminar = carritoContent.querySelector(".eliminarProducto")
+        eliminar.addEventListener("click", () => {
+            eliminarProducto(producto.id)
+            guardado()
+            ponerCarrito()
+        })
     })
     
     
@@ -80,8 +78,8 @@ function ponerCarrito() {
     
 verCarrito.addEventListener("click", ponerCarrito)
 
-function eliminarProducto() {
-    const foundId = carrito.find((element) => element.id)
+function eliminarProducto(id) {
+    const foundId = carrito.find((element) => element.id === id)
 
     carrito = carrito.filter((carritoId) => {
         return carritoId !== foundId
